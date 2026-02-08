@@ -78,12 +78,44 @@ def load_data():
         return None
  ###I want to add a GUI at this point in time so i think it will be good to add now than later
 
-# GUI SECTION
+def get_user_input():
 
-def create_gui():
-    window = tk.Tk()
-    window.title("Calorie Tracker")
+    print("Calorie Calculator")
+    print("\nLets set up your profile to calculate your calorie intake needs.\n")
 
-    window.mainloop()
+    #Find Weight
+    while True:
+        try:
+            weight = float(input("Enter your weight (kg): "))
+            if weight > 0:
+                break 
+            print("Weight must be positive, try again!")
+        except ValueError:
+            print("Please enter a valid number.")
 
-create_gui()
+    while True:
+        try:
+            height = float(input("Please enter your height (cm): "))
+            if height > 0:
+                break
+            else:
+                print("Height must be positive, please try again.")
+        except ValueError:
+            print("Please enter a valid number ")
+
+    while True:
+        try:
+            age = int(input("Please enter your height"))
+            if age > 0:
+                break
+            print("Please enter a positive number.")
+        except ValueError:
+            print("Please enter a valid number.")
+    while True:
+            gender = input("please enter your gender (m/f): ").lower()
+            if gender == ['m','f']:
+                break
+            else:
+                print("Please enter 'm' for male and 'f' for female.")
+
+            
