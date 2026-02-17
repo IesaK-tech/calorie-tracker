@@ -192,13 +192,13 @@ def display_calorie_summary(user_data):
     else:
         print("\n Nothing has been logged yet today.")
 
-    print(f"\n Daily target : {daily_target} calories")
+    print(f"\nDaily target : {daily_target} calories")
     print(f"Consumed :{consumed} calories")
 
     if remaining >=0:
         print(f"remaining :{remaining} calories")
     else:
-        print(f" Over by : {abs(remaining)} calories")
+        print(f"Over by : {abs(remaining)} calories")
 
 def log_calories(user_data):
     #This function will let the user log calories in until they say no and then save it to the JSON file
@@ -270,7 +270,7 @@ def calorie_menu(user_data):
         elif choice == 'v':
             display_calorie_summary(user_data)
         elif choice == 'q':
-            print("\n Goodbye! Stay on track!\n")
+            print("\nGoodbye! Stay on track!\n")
             break
         else:
             print(" Invalid option. Please enter L, V or Q.")
@@ -285,6 +285,18 @@ def main():
 
         if use_previous == 'y':
             user_data = previous_data
+            daily_calories = user_data['daily_calories']
+
+            print("\n" + "="*50)
+            print("           PROFILE")
+            print("="*50)
+            print(f"Weight   : {user_data['weight']} kg")
+            print(f"Height   : {user_data['height']} cm")
+            print(f"Age      : {user_data['age']} years")
+            print(f"Gender   : {'Male' if user_data['gender'] == 'm' else 'Female'}")
+            print(f"Activity : {activity_multipliers[user_data['activity_level']][0]}")
+            print(f"Daily target: {daily_calories} calories")
+            print("="*50)
 
             consumed = get_calories_consumed(user_data)
             if consumed > 0:
@@ -292,7 +304,7 @@ def main():
                 print (f"\nWelcome back! You've already logged {consumed} calories")
                 display_calorie_summary(user_data)
             else:
-                print(f"\nNothing logged yet today. Your target is {user_data}['daily_calories'] calories.")
+                print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")
                 
                 
             calorie_menu(user_data)
@@ -318,3 +330,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#The next things i would like to do is add a RESET button which resets all the data or refreshes it
+#Another thing i would like to do is add Edit and Delete functions which will be displayed on the main menu. Thinking it will show regardless but only works when i input calorie.

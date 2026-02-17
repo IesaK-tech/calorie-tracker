@@ -1,36 +1,21 @@
 {
-    "weight": 70.0,
-    "height": 185.0,
+    "weight": 80.0,
+    "height": 186.0,
     "age": 19,
     "gender": "m",
     "activity_level": 3,
-    "daily_calories": 2738,
+    "daily_calories": 2902,
     "log": {
         "17-02-2026": [
             {
                 "description": "Dinner",
-                "calories": 567,
-                "time": "14:24"
-            },
-            {
-                "description": "Breakfast",
-                "calories": 800,
-                "time": "14:30"
-            },
-            {
-                "description": "Lunch",
-                "calories": 500,
-                "time": "14:31"
-            },
-            {
-                "description": "Dinner",
-                "calories": 700,
-                "time": "14:31"
-            },
-            {
-                "description": "Snack",
                 "calories": 300,
-                "time": "14:31"
+                "time": "19:40"
+            },
+            {
+                "description": "breakfast",
+                "calories": 800,
+                "time": "19:40"
             }
         ]
     }
