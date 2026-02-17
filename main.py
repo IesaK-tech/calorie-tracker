@@ -16,7 +16,7 @@ activity_multipliers = {
     2 : ("lightly active (1-3 days/week)", 1.375), #Lightly active
     3 : ("Moderately active (exercise 3-5 days/week)", 1.55), #moderately active
     4 : ("Very active (exercise 6-7 days/week)",1.725), #very active
-    5 : ("Exrtremely active( physical job or training twice/day",1.9) #extremely active
+    5 : ("Exrtremely active (physical job or training twice/day)",1.9) #extremely active
 }
 
 def calculate_bmr(weight, height, age, gender, activity_level):
@@ -72,11 +72,12 @@ def save_data(user_data):
 
 def load_data():
     if os.path.exists(datafile):
+        if os.path.getsize(datafile) == 0:
+            return None
         with open(datafile, 'r') as file:
             return json.load(file)
     else:
         return None
- ###I want to add a GUI at this point in time so i think it will be good to add now than later
 
 def get_user_input():
 
@@ -88,8 +89,9 @@ def get_user_input():
         try:
             weight = float(input("Enter your weight (kg): "))
             if weight > 0:
-                break 
-            print("Weight must be positive, try again!")
+                break
+            else: 
+                print("Weight must be positive, try again!")
         except ValueError:
             print("Please enter a valid number.")
 
@@ -105,17 +107,214 @@ def get_user_input():
 
     while True:
         try:
-            age = int(input("Please enter your height"))
+            age = int(input("Please enter your age: "))
             if age > 0:
                 break
-            print("Please enter a positive number.")
+            else:
+                print("Please enter a positive number.")
         except ValueError:
             print("Please enter a valid number.")
     while True:
             gender = input("please enter your gender (m/f): ").lower()
-            if gender == ['m','f']:
+            if gender in ['m','f']:
                 break
             else:
                 print("Please enter 'm' for male and 'f' for female.")
+    print("\n" + "="*50)
+    print("         ACTIVITY LEVELS")
+    print("="*50 + "\n")
 
+    while True:
+        try:
+            activity_level = int(input("\n\n 1: Little to no excersize \n 2: Lightly active (1-3 days/week) \n 3: Moderately active (excersize 3-5 times a week) \n 4: Very active (excersize 6-7 times a week) \n 5: Extremely active (Physical job or training twice/day) = 5 \n\n Select your activity level (1-5): "))
+            if activity_level in activity_multipliers:
+                break
+            else:
+                print("Please enter a number between 1 and 5.")
+        except ValueError:
+            print("Please enter a valid number.") 
+
+    return {
+        "weight" : weight,
+        "height" : height,
+        "age" : age,
+        "gender" : gender,
+        "activity_level" : activity_level
+    }
+
+def display_results(user_data,daily_calories):
+    """
+    this will display it nicely for the user
+    """
+
+    print("\n" + "="*50)
+    print("           YOUR DAILY CALORIE NEEDS")
+    print("="*50)
+    print(f"\nBased on your profile:")
+    print(f"  Weight: {user_data['weight']} kg")
+    print(f"  Height: {user_data['height']} cm")
+    print(f"  Age: {user_data['age']} years")
+    print(f"  Gender: {'Male' if user_data['gender'] == 'm' else 'Female'}")
+    print(f"  Activity: {activity_multipliers[user_data['activity_level']][0]}")
+    print(f"     \nYour daily calorie target: {daily_calories} calories")
+
+#I want to add a calorie logging section, which is what i will do here
+#I will first create a timestamp function which takes the time and date of when the calories are logged
+
+def get_todays_key():
+        return datetime.now().strftime("%d-%m-%Y")
+
+#This will return how many calories the user has logged today.
+#Logs are stored in userdata['log'] as a dictionary of {date : entries}
+#Each entry is displayed as {'descripiton : stri, 'calories':int, 'time': str}
+def get_calories_consumed(user_data):
+    today =get_todays_key()
+    log = user_data.get("log",{})
+    todays_entries = log.get(today,[])
+    return  sum(entry["calories"] for entry in todays_entries)
+
+def display_calorie_summary(user_data):
+    #This will print todays progress
+    today = get_todays_key()
+    daily_target = user_data["daily_calories"]
+    consumed = get_calories_consumed(user_data)
+    remaining = daily_target - consumed
+
+    log = user_data.get("log", {})
+    todays_entries = log.get(today, [])
+
+    print(f"\n CALORIE LOG - {today}")
+
+    if todays_entries:
+        print("\n What you have logged today:")
+        for i, entry in enumerate(todays_entries, 1):
+            print(f"   {i}. {entry['description']} - {entry['calories']} cal ({entry['time']})")
+    else:
+        print("\n Nothing has been logged yet today.")
+
+    print(f"\n Daily target : {daily_target} calories")
+    print(f"Consumed :{consumed} calories")
+
+    if remaining >=0:
+        print(f"remaining :{remaining} calories")
+    else:
+        print(f" Over by : {abs(remaining)} calories")
+
+def log_calories(user_data):
+    #This function will let the user log calories in until they say no and then save it to the JSON file
+    today = get_todays_key()
+
+    if "log" not in user_data:
+        user_data["log"] = {}
+    if today not in user_data["log"]:
+        user_data["log"][today] = []
+
+    print("\nLOG YOUR CALORIES")
+
+    while True:
+        description = input("\nWhat was this meal? (Breakfast, Lunch, Dinner, Snack): ")
+        if not description:
+            description = "Unnamed item"
+
+        while True:
+            try:
+                calories = int(input(f"How many calories in your '{description}'? "))
+                if calories >= 0:
+                    break
+                else:
+                    print("Calories cannot be negative. Try again.")
+            except ValueError:
+                print("Please enter a whole number")
+
+        timestamp = datetime.now().strftime("%H:%M")
+        entry = {
+            "description": description,
+            "calories" : calories,
+            "time" : timestamp
+        }
+        user_data["log"][today].append(entry)
+
+        consumed = get_calories_consumed(user_data)
+        remaining = user_data["daily_calories"] - consumed
+        print(f"\nAdded! You have consumed {consumed} calories today.")
+        if remaining >= 0:
+            print (f"\n{remaining} calories remaining.")
+        else:
+            print(f"You're {abs(remaining)} calories over your target! ")
+        add_more = input("\nWould you like to add another entry? (y/n)").lower()
+        if add_more != 'y':
+            break
+    save_data(user_data)
+    display_calorie_summary(user_data)
+
+def calorie_menu(user_data):
+    """
+    The main menu will be shown after a profile is loaded and the options will be:
+    L - Log calories for today
+    V - View todays summary
+    Q - Quit (giving a message too)
+    """
+    while True:
+        print("\n" + "="*50)
+        print("                   MAIN MENU")
+        print("="*50)
+        print("  \n        L - Log calories")
+        print("        V - View calories")
+        print("        Q - Quit")
+
+
+        choice = input("\nEnter your choice: ").lower().strip()
+
+        if choice == 'l':
+            log_calories(user_data)
+        elif choice == 'v':
+            display_calorie_summary(user_data)
+        elif choice == 'q':
+            print("\n Goodbye! Stay on track!\n")
+            break
+        else:
+            print(" Invalid option. Please enter L, V or Q.")
+def main():
+
+    previous_data = load_data()
+    if previous_data:
+        print("Previous Data has been found")
+        print(f"Previous result: {previous_data.get('daily_calories', 'N/A')} calories")
+
+        use_previous = input("\nWould you like to use previous data (y/n):").lower()
+
+        if use_previous == 'y':
+            user_data = previous_data
+
+            consumed = get_calories_consumed(user_data)
+            if consumed > 0:
+
+                print (f"\nWelcome back! You've already logged {consumed} calories")
+                display_calorie_summary(user_data)
+            else:
+                print(f"\nNothing logged yet today. Your target is {user_data}['daily_calories'] calories.")
+                
+                
+            calorie_menu(user_data)
+            return
             
+    user_data = get_user_input()
+
+    daily_calories = calculate_bmr(
+        user_data['weight'],
+        user_data['height'],
+        user_data['age'],
+        user_data['gender'],
+        user_data['activity_level']
+    )
+
+    user_data['daily_calories'] = daily_calories
+
+    display_results(user_data, daily_calories)
+
+    save_data(user_data)
+
+    calorie_menu(user_data)
+
+if __name__ == "__main__":
+    main()
