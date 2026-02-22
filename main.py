@@ -247,11 +247,99 @@ def log_calories(user_data):
     save_data(user_data)
     display_calorie_summary(user_data)
 
+def edit_calories(user_data):
+    """
+    This lets me edit the calories by fetching the data that i have logged today and then letting me relog the calories.
+    """
+    today = get_todays_key
+    log = user_data.get("log",{})
+    todays_entries = log.get(today, [])
+
+    if not todays_entries:
+        print("/n Please log something so that it can be editable!")
+        return
+    
+    print("\n" * 50 + "=")
+    print("      EDIT TODAYS ENTRIES")
+    print("=" * 50)
+    print("What you have logged today:")
+    for i, entry in enumerate(todays_entries, 1):
+        print(f"   {i}. {entry['description']} - {entry['calories']} cal ({entry['time']})")
+    print("="*50)
+
+    while True:
+        try:
+            entry_num = int(input("\n  Enter the number of the entry to edit (0 to cancel): "))
+            if entry_num == 0:
+                print("  Edit cancelled.")
+                return
+            if 1 <= entry_num <= len(todays_entries):
+                break
+            else:
+                print(f"  Please enter a number between 1 and {len(todays_entries)}.")
+        except ValueError:
+            print("  Please enter a valid number.")
+
+    # Get the entry to edit
+    entry_index = entry_num - 1
+    entry = todays_entries[entry_index]
+
+    print(f"\n  Selected: {entry['description']} - {entry['calories']} cal")
+    print("\n  What would you like to do?")
+    print("    1 - Edit description")
+    print("    2 - Edit calories")
+    print("    3 - Delete this entry")
+    print("    0 - Cancel")
+
+    action = input("\n Enter your choice").strip()
+
+    if action == '1':
+        new_description = input(f"\n current description: '{entry['description']}\n New description: ").strip()
+        if new_description:
+            entry['description'] = new_description
+            print("Description Updated!")
+        else:
+            print("description cannot be empty. No changed made.")
+
+    elif action == '2':
+        while True:
+            try:
+                new_calories = int(input(f"\n current calories: {entry['calories']}\n New Calories:"))
+                if  new_calories >= 0:
+                    entry['calories'] = new_calories
+                    print('Calories Updated!')
+                    break
+                else:
+                    print('Cannot accept negative Calories, please enter a positive number.')
+            except ValueError:
+                print("Please enter a valid number.")
+
+    elif action == '3':
+        confirm = int(input(f"\nDelete '{entry['description']}'? (y/n)")).lower()
+        if confirm == 'y':
+            print('Entry Deleted!')
+        elif confirm == 'n':
+            print('Deletion Cancelled.')
+        else:
+            print('Choose between (y/n)')
+
+    elif action == '0':
+        print('Edit Cancelled.')
+        return
+    else:
+        print("No Changes made.")
+        return
+    
+    save_data(user_data)
+    display_calorie_summary(user_data)
+
+
 def calorie_menu(user_data):
     """
     The main menu will be shown after a profile is loaded and the options will be:
     L - Log calories for today
     V - View todays summary
+    E - Edit Todays Entries
     Q - Quit (giving a message too)
     """
     while True:
@@ -260,7 +348,10 @@ def calorie_menu(user_data):
         print("="*50)
         print("  \n        L - Log calories")
         print("        V - View calories")
+        print(" E - Edit calories")
+        print(" D - Deset data & calories")
         print("        Q - Quit")
+
 
 
         choice = input("\nEnter your choice: ").lower().strip()
@@ -271,9 +362,11 @@ def calorie_menu(user_data):
             display_calorie_summary(user_data)
         elif choice == 'q':
             print("\nGoodbye! Stay on track!\n")
+        elif choice == 'e':
+            edit_calories(user_data)
             break
         else:
-            print(" Invalid option. Please enter L, V or Q.")
+            print(" Invalid option. Please enter L, E, D or Q.")
 def main():
 
     previous_data = load_data()
@@ -305,6 +398,12 @@ def main():
                 display_calorie_summary(user_data)
             else:
                 print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")
+                """
+                On line 307, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
+                print(f"\n  Nothing logged yet today. Your target is {user_data['daily_calories']} calories."). I spent alot of time looking for the bug so i asked claude to help me find it, it had found the bug and explained that python
+                in some edge cases can cause the system to priont out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
+                behave when it comes to niche bugs and different edge cases.
+                """
                 
                 
             calorie_menu(user_data)
@@ -330,6 +429,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#The next things i would like to do is add a RESET button which resets all the data or refreshes it
-#Another thing i would like to do is add Edit and Delete functions which will be displayed on the main menu. Thinking it will show regardless but only works when i input calorie.
