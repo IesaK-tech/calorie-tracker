@@ -251,15 +251,15 @@ def edit_calories(user_data):
     """
     This lets me edit the calories by fetching the data that i have logged today and then letting me relog the calories.
     """
-    today = get_todays_key
+    today = get_todays_key()
     log = user_data.get("log",{})
     todays_entries = log.get(today, [])
 
     if not todays_entries:
-        print("/n Please log something so that it can be editable!")
+        print("\n Please log something so that it can be editable!")
         return
     
-    print("\n" * 50 + "=")
+    print("\n" + "=" * 50)
     print("      EDIT TODAYS ENTRIES")
     print("=" * 50)
     print("What you have logged today:")
@@ -269,18 +269,18 @@ def edit_calories(user_data):
 
     while True:
         try:
-            entry_num = int(input("\n  Enter the number of the entry to edit (0 to cancel): "))
+            entry_num = int(input("\nEnter the number of the entry to edit (0 to cancel): "))
             if entry_num == 0:
-                print("  Edit cancelled.")
+                print("Edit cancelled.")
                 return
             if 1 <= entry_num <= len(todays_entries):
                 break
             else:
-                print(f"  Please enter a number between 1 and {len(todays_entries)}.")
+                print(f"Please enter a number between 1 and {len(todays_entries)}.")
         except ValueError:
-            print("  Please enter a valid number.")
+            print("Please enter a valid number.")
 
-    # Get the entry to edit
+    #Allows mne to edit entries
     entry_index = entry_num - 1
     entry = todays_entries[entry_index]
 
@@ -291,7 +291,7 @@ def edit_calories(user_data):
     print("    3 - Delete this entry")
     print("    0 - Cancel")
 
-    action = input("\n Enter your choice").strip()
+    action = input("\n Enter your choice: ").strip()
 
     if action == '1':
         new_description = input(f"\n current description: '{entry['description']}\n New description: ").strip()
@@ -315,23 +315,19 @@ def edit_calories(user_data):
                 print("Please enter a valid number.")
 
     elif action == '3':
-        confirm = int(input(f"\nDelete '{entry['description']}'? (y/n)")).lower()
+        confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
         if confirm == 'y':
+            todays_entries.pop(entry_index)
             print('Entry Deleted!')
-        elif confirm == 'n':
-            print('Deletion Cancelled.')
+            save_data(user_data)
+            display_calorie_summary(user_data)
         else:
-            print('Choose between (y/n)')
-
+            print('Deletion canelled.')
     elif action == '0':
         print('Edit Cancelled.')
-        return
     else:
-        print("No Changes made.")
-        return
-    
-    save_data(user_data)
-    display_calorie_summary(user_data)
+        print("Ivalid choice. No Changes made.")
+        
 
 
 def calorie_menu(user_data):
@@ -348,8 +344,7 @@ def calorie_menu(user_data):
         print("="*50)
         print("  \n        L - Log calories")
         print("        V - View calories")
-        print(" E - Edit calories")
-        print(" D - Deset data & calories")
+        print("        E - Edit calories")
         print("        Q - Quit")
 
 
@@ -364,9 +359,8 @@ def calorie_menu(user_data):
             print("\nGoodbye! Stay on track!\n")
         elif choice == 'e':
             edit_calories(user_data)
-            break
         else:
-            print(" Invalid option. Please enter L, E, D or Q.")
+            print(" Invalid option. Please enter L, E or Q.")
 def main():
 
     previous_data = load_data()
@@ -420,11 +414,8 @@ def main():
     )
 
     user_data['daily_calories'] = daily_calories
-
     display_results(user_data, daily_calories)
-
     save_data(user_data)
-
     calorie_menu(user_data)
 
 if __name__ == "__main__":
