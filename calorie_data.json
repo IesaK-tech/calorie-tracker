@@ -8,14 +8,14 @@
     "log": {
         "22-02-2026": [
             {
-                "description": "Lunch",
-                "calories": 600,
-                "time": "16:45"
+                "description": "Snack",
+                "calories": 800,
+                "time": "20:50"
             },
             {
-                "description": "Dinner",
+                "description": "Snack",
                 "calories": 800,
-                "time": "17:04"
+                "time": "20:51"
             }
         ]
     }

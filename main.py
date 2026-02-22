@@ -121,7 +121,7 @@ def get_user_input():
             else:
                 print("Please enter 'm' for male and 'f' for female.")
     print("\n" + "="*50)
-    print("         ACTIVITY LEVELS")
+    print("              ACTIVITY LEVELS")
     print("="*50 + "\n")
 
     while True:
@@ -260,9 +260,9 @@ def edit_calories(user_data):
         return
     
     print("\n" + "=" * 50)
-    print("      EDIT TODAYS ENTRIES")
+    print("              EDIT TODAYS ENTRIES")
     print("=" * 50)
-    print("What you have logged today:")
+    print("          What you have logged today:")
     for i, entry in enumerate(todays_entries, 1):
         print(f"   {i}. {entry['description']} - {entry['calories']} cal ({entry['time']})")
     print("="*50)
@@ -357,6 +357,7 @@ def calorie_menu(user_data):
             display_calorie_summary(user_data)
         elif choice == 'q':
             print("\nGoodbye! Stay on track!\n")
+            return
         elif choice == 'e':
             edit_calories(user_data)
         else:
@@ -420,3 +421,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    #Okay Next thing i would like to do is to add a profile section, as i have added the CRUD applictaions but i just need the profile section to make it a little tidier and i also want to improve the interface.
