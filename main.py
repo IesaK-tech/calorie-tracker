@@ -421,5 +421,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    #Okay Next thing i would like to do is to add a profile section, as i have added the CRUD applictaions but i just need the profile section to make it a little tidier and i also want to improve the interface.

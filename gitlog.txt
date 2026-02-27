@@ -1,0 +1,53 @@
+commit e2d53a8f472836a28535ea0e6aeb009332002b60
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Sun Feb 22 20:54:47 2026 +0000
+
+    debug code - causing user to not be able to quit the application, refine user interface in CLI
+
+commit c73f414587799e3cb82448555a047ed22852f5c3
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Sun Feb 22 17:06:48 2026 +0000
+
+    Debug code, fix the program terminating when a user cancels an edit
+
+commit 22372f2f7144e328d557a96fae0aedbf57463516
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Sun Feb 22 16:34:35 2026 +0000
+
+    Add Edit and Delete Operations with error handling and friendly user interface
+
+commit 2465eaadec097f22777d81bc1df91680d14a359b
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Tue Feb 17 19:45:03 2026 +0000
+
+    add profile when reloading a previously saved profile. Add calories remaining and the calorie entries too
+
+commit e4dc51793e5443a4fc85b192876ec4e4335baf49
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Tue Feb 17 14:50:04 2026 +0000
+
+    add data persistence, CLI navigation menu, view, log and delete entries.
+
+commit 970fc766535a02b3d6f86115a46d8dc03a504ce3
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Sun Feb 8 19:38:58 2026 +0000
+
+    add user input for weight, height and age
+
+commit 7cb0a9ba3e522e1e182fa1b9faa975118b69b47e
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Thu Feb 5 23:06:59 2026 +0000
+
+    import os, json, datetime, tkinter. add stats to calculate BMR. Save data to a Json file
+
+commit 8e636c11d83e45bd1902b674d34f835e51b639ca
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Tue Feb 3 22:32:33 2026 +0000
+
+    add python file to calorie-tracker repo
+
+commit 1a4621da163a008edb97897997b6d1f0616de877
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Tue Feb 3 16:01:45 2026 +0000
+
+    Initial commit
