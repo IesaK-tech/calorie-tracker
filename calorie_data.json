@@ -1,21 +1,16 @@
 {
-    "weight": 69.0,
+    "weight": 70.0,
     "height": 187.0,
     "age": 19,
     "gender": "m",
     "activity_level": 3,
-    "daily_calories": 2742,
+    "daily_calories": 2757,
     "log": {
-        "22-02-2026": [
+        "02-03-2026": [
             {
-                "description": "Snack",
+                "description": "Lunch",
                 "calories": 800,
-                "time": "20:50"
-            },
-            {
-                "description": "Snack",
-                "calories": 800,
-                "time": "20:51"
+                "time": "13:21"
             }
         ]
     }

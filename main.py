@@ -1,6 +1,5 @@
 #This is the python file that i will be pushing into Github
 # I will be making a Calorie Tracking Application - A simple app which will track daily calorie intake.
-#This will be against my BMR, wanted to do TDEE but it is alot more complicated :/
 
 import json #This will allow me to save and load data from files
 import os #This will chceck if files exist
@@ -126,7 +125,7 @@ def get_user_input():
 
     while True:
         try:
-            activity_level = int(input("\n\n 1: Little to no excersize \n 2: Lightly active (1-3 days/week) \n 3: Moderately active (excersize 3-5 times a week) \n 4: Very active (excersize 6-7 times a week) \n 5: Extremely active (Physical job or training twice/day) = 5 \n\n Select your activity level (1-5): "))
+            activity_level = int(input("\n\n 1: Little to no excersize \n 2: Lightly active (1-3 days/week) \n 3: Moderately active (excersize 3-5 times a week) \n 4: Very active (excersize 6-7 times a week) \n 5: Extremely active (Physical job or training twice/day) \n\n Select your activity level (1-5): "))
             if activity_level in activity_multipliers:
                 break
             else:
@@ -201,7 +200,7 @@ def display_calorie_summary(user_data):
         print(f"Over by : {abs(remaining)} calories")
 
 def log_calories(user_data):
-    #This function will let the user log calories in until they say no and then save it to the JSON file
+
     today = get_todays_key()
 
     if "log" not in user_data:
@@ -211,41 +210,61 @@ def log_calories(user_data):
 
     print("\nLOG YOUR CALORIES")
 
-    while True:
-        description = input("\nWhat was this meal? (Breakfast, Lunch, Dinner, Snack): ")
-        if not description:
-            description = "Unnamed item"
+    valid_meals = ['breakfast', 'lunch', 'dinner', 'snack']
 
+    while True:
+        while True:
+            description = input(
+                "\nWhat was this meal? (Breakfast, Lunch, Dinner, Snack): "
+            ).lower().strip()
+
+            if description in valid_meals:
+                description = description.capitalize()
+                break
+            else:
+                print("Please choose between Breakfast, Lunch, Dinner or Snack.")
         while True:
             try:
                 calories = int(input(f"How many calories in your '{description}'? "))
                 if calories >= 0:
                     break
                 else:
-                    print("Calories cannot be negative. Try again.")
+                    print("Calories cannot be negative.")
             except ValueError:
-                print("Please enter a whole number")
+                print("Please enter a whole number.")
 
         timestamp = datetime.now().strftime("%H:%M")
         entry = {
             "description": description,
-            "calories" : calories,
-            "time" : timestamp
+            "calories": calories,
+            "time": timestamp
         }
+
         user_data["log"][today].append(entry)
 
         consumed = get_calories_consumed(user_data)
         remaining = user_data["daily_calories"] - consumed
+
         print(f"\nAdded! You have consumed {consumed} calories today.")
+
         if remaining >= 0:
-            print (f"\n{remaining} calories remaining.")
+            print(f"{remaining} calories remaining.")
         else:
-            print(f"You're {abs(remaining)} calories over your target! ")
-        add_more = input("\nWould you like to add another entry? (y/n)").lower()
-        if add_more != 'y':
+            print(f"You're {abs(remaining)} calories over your target!")
+
+        while True:
+            add_more = input("\nWould you like to add another entry? (y/n): ").lower().strip()
+
+            if add_more in ['y', 'n']:
+                break
+            else:
+                print("Please input either 'y' or 'n'.")
+
+        if add_more == 'n':
             break
-    save_data(user_data)
-    display_calorie_summary(user_data)
+
+        save_data(user_data)
+        display_calorie_summary(user_data)
 
 def edit_calories(user_data):
     """
@@ -280,7 +299,7 @@ def edit_calories(user_data):
         except ValueError:
             print("Please enter a valid number.")
 
-    #Allows mne to edit entries
+    #Allows me to edit entries
     entry_index = entry_num - 1
     entry = todays_entries[entry_index]
 
@@ -291,45 +310,44 @@ def edit_calories(user_data):
     print("    3 - Delete this entry")
     print("    0 - Cancel")
 
-    action = input("\n Enter your choice: ").strip()
+    while True:
+        action = input("\n Enter your choice: ").strip()
 
-    if action == '1':
-        new_description = input(f"\n current description: '{entry['description']}\n New description: ").strip()
-        if new_description:
-            entry['description'] = new_description
-            print("Description Updated!")
+        if action == '1':
+            new_description = input(f"\n current description: '{entry['description']}\n New description: ").strip()
+            if new_description:
+                entry['description'] = new_description
+                print("Description Updated!")
+            else:
+                print("description cannot be empty. No changed made.")
+
+        elif action == '2':
+            while True:
+                try:
+                    new_calories = int(input(f"\n current calories: {entry['calories']}\n New Calories:"))
+                    if  new_calories >= 0:
+                        entry['calories'] = new_calories
+                        print('Calories Updated!')
+                        break
+                    else:
+                        print('Cannot accept negative Calories, please enter a positive number.')
+                except ValueError:
+                    print("Please enter a valid number.")
+
+        elif action == '3':
+            confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
+            if confirm == 'y':
+                todays_entries.pop(entry_index)
+                print('Entry Deleted!')
+                save_data(user_data)
+                display_calorie_summary(user_data)
+            else:
+                print('Deletion canelled.')
+        elif action == '0':
+            print('Edit Cancelled.')
         else:
-            print("description cannot be empty. No changed made.")
-
-    elif action == '2':
-        while True:
-            try:
-                new_calories = int(input(f"\n current calories: {entry['calories']}\n New Calories:"))
-                if  new_calories >= 0:
-                    entry['calories'] = new_calories
-                    print('Calories Updated!')
-                    break
-                else:
-                    print('Cannot accept negative Calories, please enter a positive number.')
-            except ValueError:
-                print("Please enter a valid number.")
-
-    elif action == '3':
-        confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
-        if confirm == 'y':
-            todays_entries.pop(entry_index)
-            print('Entry Deleted!')
-            save_data(user_data)
-            display_calorie_summary(user_data)
-        else:
-            print('Deletion canelled.')
-    elif action == '0':
-        print('Edit Cancelled.')
-    else:
-        print("Ivalid choice. No Changes made.")
-        
-
-
+            print("Invalid choice. Choose between 0,1,2 and 3.")
+    
 def calorie_menu(user_data):
     """
     The main menu will be shown after a profile is loaded and the options will be:
@@ -346,9 +364,6 @@ def calorie_menu(user_data):
         print("        V - View calories")
         print("        E - Edit calories")
         print("        Q - Quit")
-
-
-
         choice = input("\nEnter your choice: ").lower().strip()
 
         if choice == 'l':
@@ -363,46 +378,52 @@ def calorie_menu(user_data):
         else:
             print(" Invalid option. Please enter L, E or Q.")
 def main():
-
     previous_data = load_data()
     if previous_data:
         print("Previous Data has been found")
         print(f"Previous result: {previous_data.get('daily_calories', 'N/A')} calories")
+        while True:
+            """"
+            With this next part of code (the while true statement), i was having difficulties looping my logic as in the terminal, when i would put anything but y or n, it would say choose between y or n
+            it would terminate the session right after, AI had told me to use a while true statement and taught me why it works, because of this i was able to implement this logic throughout my programme and also learn effectively too
+            """
+                
+            use_previous = input("\nWould you like to use previous data (y/n): ").lower().strip()
 
-        use_previous = input("\nWould you like to use previous data (y/n):").lower()
+            if use_previous == 'y':
+                user_data = previous_data
+                daily_calories = user_data['daily_calories']
+                break
 
-        if use_previous == 'y':
-            user_data = previous_data
-            daily_calories = user_data['daily_calories']
+            elif use_previous == 'n':
+                user_data = get_user_input()
+                daily_calories = calculate_bmr(
+                    user_data['weight'],
+                    user_data['height'],
+                    user_data['age'],
+                    user_data['gender'],
+                    user_data['activity_level']
+                )
+                user_data['daily_calories'] = daily_calories
+                break
 
-            print("\n" + "="*50)
-            print("           PROFILE")
-            print("="*50)
-            print(f"Weight   : {user_data['weight']} kg")
-            print(f"Height   : {user_data['height']} cm")
-            print(f"Age      : {user_data['age']} years")
-            print(f"Gender   : {'Male' if user_data['gender'] == 'm' else 'Female'}")
-            print(f"Activity : {activity_multipliers[user_data['activity_level']][0]}")
-            print(f"Daily target: {daily_calories} calories")
-            print("="*50)
-
-            consumed = get_calories_consumed(user_data)
-            if consumed > 0:
-
-                print (f"\nWelcome back! You've already logged {consumed} calories")
-                display_calorie_summary(user_data)
             else:
-                print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")
-                """
-                On line 307, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
-                print(f"\n  Nothing logged yet today. Your target is {user_data['daily_calories']} calories."). I spent alot of time looking for the bug so i asked claude to help me find it, it had found the bug and explained that python
-                in some edge cases can cause the system to priont out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
-                behave when it comes to niche bugs and different edge cases.
-                """
-                
-                
-            calorie_menu(user_data)
-            return
+                print("Please choose between 'y' or 'n'.")
+        consumed = get_calories_consumed(user_data)
+        if consumed > 0:
+
+            print (f"\nWelcome back! You've already logged {consumed} calories")
+            display_calorie_summary(user_data)
+        else:
+            print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")
+            """
+            On line 307, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
+            print(f"\n  Nothing logged yet today. Your target is {user_data['daily_calories']} calories."). I spent alot of time looking for the bug so i asked claude to help me find it, it had found the bug and explained that python
+            in some edge cases can cause the system to priont out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
+            behave when it comes to niche bugs and different edge cases.
+            """        
+        calorie_menu(user_data)    
+        return
             
     user_data = get_user_input()
 
@@ -421,3 +442,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
