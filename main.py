@@ -261,6 +261,7 @@ def log_calories(user_data):
                 print("Please input either 'y' or 'n'.")
 
         if add_more == 'n':
+            save_data(user_data)
             break
 
         save_data(user_data)
@@ -325,7 +326,6 @@ def edit_calories(user_data):
                 except ValueError:
                     print("Please enter a valid number.")
                     return entry_num
-
         elif action == '2':
             confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
             if confirm == 'y':
