@@ -16,6 +16,11 @@
                 "description": "Lunch",
                 "calories": 400,
                 "time": "14:12"
+            },
+            {
+                "description": "Snack",
+                "calories": 120,
+                "time": "14:36"
             }
         ]
     }

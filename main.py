@@ -263,7 +263,6 @@ def log_calories(user_data):
         if add_more == 'n':
             save_data(user_data)
             break
-
         save_data(user_data)
         display_calorie_summary(user_data)
 
