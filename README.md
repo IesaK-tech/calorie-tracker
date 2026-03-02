@@ -1,5 +1,5 @@
 # Calorie tracker
-This project consists of the code for a calorie tracker. Calculating how much a given person needs to eat in order to meet calorie goals based on their height, weight, activity level and Gender. It does NOT use BMI rather it uses TDEE which is a much more accurate way of tracking calories to ensure you are working towards your goal of either losing, gaining or maintaining weight.
+This project consists of the code for a calorie tracker. Calculating how much a given person needs to eat in order to meet calorie goals based on their height, weight, activity level and Gender. It uses the BMR of a given user, also calculated with the use of Miffin-St Jeor Equation. Which is a much more accurate way of tracking calories to ensure you are working towards your goal of either losing, gaining or maintaining weight.
 
 ### How to run the Programme:
 There are two ways of running this programme. One way:
