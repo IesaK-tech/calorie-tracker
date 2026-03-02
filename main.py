@@ -182,20 +182,20 @@ def display_calorie_summary(user_data):
     log = user_data.get("log", {})
     todays_entries = log.get(today, [])
 
-    print(f"\n CALORIE LOG - {today}")
+    print(f"\nCALORIE LOG - {today}")
 
     if todays_entries:
-        print("\n What you have logged today:")
+        print("\nWhat you have logged today:")
         for i, entry in enumerate(todays_entries, 1):
             print(f"   {i}. {entry['description']} - {entry['calories']} cal ({entry['time']})")
     else:
         print("\n Nothing has been logged yet today.")
 
     print(f"\nDaily target : {daily_target} calories")
-    print(f"Consumed :{consumed} calories")
+    print(f"Consumed : {consumed} calories")
 
     if remaining >=0:
-        print(f"remaining :{remaining} calories")
+        print(f"Remaining : {remaining} calories")
     else:
         print(f"Over by : {abs(remaining)} calories")
 
@@ -305,48 +305,44 @@ def edit_calories(user_data):
 
     print(f"\n  Selected: {entry['description']} - {entry['calories']} cal")
     print("\n  What would you like to do?")
-    print("    1 - Edit description")
-    print("    2 - Edit calories")
-    print("    3 - Delete this entry")
     print("    0 - Cancel")
+    print("    1 - Edit calories")
+    print("    2 - Delete this entry")
 
     while True:
         action = input("\n Enter your choice: ").strip()
 
         if action == '1':
-            new_description = input(f"\n current description: '{entry['description']}\n New description: ").strip()
-            if new_description:
-                entry['description'] = new_description
-                print("Description Updated!")
-            else:
-                print("description cannot be empty. No changed made.")
-
-        elif action == '2':
             while True:
                 try:
-                    new_calories = int(input(f"\n current calories: {entry['calories']}\n New Calories:"))
+                    new_calories = int(input(f"\nCurrent calories: {entry['calories']}\nNew Calories:"))
                     if  new_calories >= 0:
                         entry['calories'] = new_calories
                         print('Calories Updated!')
-                        break
+                        return calorie_menu
                     else:
                         print('Cannot accept negative Calories, please enter a positive number.')
                 except ValueError:
                     print("Please enter a valid number.")
+                    return entry_num
 
-        elif action == '3':
+        elif action == '2':
             confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
             if confirm == 'y':
                 todays_entries.pop(entry_index)
                 print('Entry Deleted!')
                 save_data(user_data)
                 display_calorie_summary(user_data)
+                return calorie_menu
             else:
                 print('Deletion canelled.')
+                return entry_num
         elif action == '0':
             print('Edit Cancelled.')
+            return entry_num
         else:
-            print("Invalid choice. Choose between 0,1,2 and 3.")
+            print("Invalid choice. Choose between 0,1 and 2.")
+            return edit_calories(user_data)
     
 def calorie_menu(user_data):
     """

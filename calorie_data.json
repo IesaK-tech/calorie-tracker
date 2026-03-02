@@ -6,12 +6,6 @@
     "activity_level": 3,
     "daily_calories": 2757,
     "log": {
-        "02-03-2026": [
-            {
-                "description": "Lunch",
-                "calories": 800,
-                "time": "13:21"
-            }
-        ]
+        "02-03-2026": []
     }
 }
