@@ -4,8 +4,6 @@
 import json #This will allow me to save and load data from files
 import os #This will chceck if files exist
 from datetime import datetime #This will timestamp when someone has inputted their calories
-import tkinter as tk
-from tkinter import ttk
 
 datafile = "calorie_data.json"
 
@@ -167,11 +165,12 @@ def get_todays_key():
 #Logs are stored in userdata['log'] as a dictionary of {date : entries}
 #Each entry is displayed as {'descripiton : stri, 'calories':int, 'time': str}
 def get_calories_consumed(user_data):
-    today =get_todays_key()
+    today = get_todays_key()
     log = user_data.get("log",{})
     todays_entries = log.get(today,[])
     return  sum(entry["calories"] for entry in todays_entries)
 
+#Displays what the User has logged with the function and their daily calories, works out their remaining calories based on the calories they have logged.
 def display_calorie_summary(user_data):
     #This will print todays progress
     today = get_todays_key()
@@ -199,6 +198,11 @@ def display_calorie_summary(user_data):
     else:
         print(f"Over by : {abs(remaining)} calories")
 
+"""
+==================================================
+Log calories Function with the timestamp
+"""
+
 def log_calories(user_data):
 
     today = get_todays_key()
@@ -208,7 +212,9 @@ def log_calories(user_data):
     if today not in user_data["log"]:
         user_data["log"][today] = []
 
-    print("\nLOG YOUR CALORIES")
+    print("=" *50)
+    print("                 LOG CALORIES")
+    print("=" *50)
 
     valid_meals = ['breakfast', 'lunch', 'dinner', 'snack']
 
@@ -225,11 +231,11 @@ def log_calories(user_data):
                 print("Please choose between Breakfast, Lunch, Dinner or Snack.")
         while True:
             try:
-                calories = int(input(f"How many calories in your '{description}'? "))
-                if calories >= 0:
+                calories = int(input(f"How many calories are in your '{description}'? "))
+                if calories > 0:
                     break
                 else:
-                    print("Calories cannot be negative.")
+                    print("Calories cannot be negative or zero, try again.")
             except ValueError:
                 print("Please enter a whole number.")
 
@@ -265,6 +271,11 @@ def log_calories(user_data):
             break
         save_data(user_data)
         display_calorie_summary(user_data)
+
+
+"""===============================
+Edit Calories Function
+"""
 
 def edit_calories(user_data):
     """
@@ -319,6 +330,7 @@ def edit_calories(user_data):
                     if  new_calories >= 0:
                         entry['calories'] = new_calories
                         print('Calories Updated!')
+                        save_data(user_data)
                         return calorie_menu
                     else:
                         print('Cannot accept negative Calories, please enter a positive number.')
@@ -340,8 +352,11 @@ def edit_calories(user_data):
             print('Edit Cancelled.')
             return entry_num
         else:
-            print("Invalid choice. Choose between 0,1 and 2.")
+            print("Invalid choice. Choose between 0, 1 and 2.")
             return edit_calories(user_data)
+        
+"=============================="
+"MAIN MENU CODE"
     
 def calorie_menu(user_data):
     """
@@ -355,10 +370,10 @@ def calorie_menu(user_data):
         print("\n" + "="*50)
         print("                   MAIN MENU")
         print("="*50)
-        print("  \n        L - Log calories")
-        print("        V - View calories")
-        print("        E - Edit calories")
-        print("        Q - Quit")
+        print("  \n            L - Log calories")
+        print("            V - View calories")
+        print("            E - Edit calories")
+        print("            Q - Quit")
         choice = input("\nEnter your choice: ").lower().strip()
 
         if choice == 'l':
@@ -372,6 +387,15 @@ def calorie_menu(user_data):
             edit_calories(user_data)
         else:
             print(" Invalid option. Please enter L, E or Q.")
+
+"""=======================================
+"""
+
+"""
+============================================
+Data Persistence section
+"""
+
 def main():
     previous_data = load_data()
     if previous_data:
@@ -407,7 +431,7 @@ def main():
         consumed = get_calories_consumed(user_data)
         if consumed > 0:
 
-            print (f"\nWelcome back! You've already logged {consumed} calories")
+            print (f"\nWelcome back! You have already logged {consumed} calories.")
             display_calorie_summary(user_data)
         else:
             print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")

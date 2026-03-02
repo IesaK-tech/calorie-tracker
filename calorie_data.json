@@ -21,6 +21,26 @@
                 "description": "Snack",
                 "calories": 120,
                 "time": "14:36"
+            },
+            {
+                "description": "Breakfast",
+                "calories": 300,
+                "time": "14:41"
+            },
+            {
+                "description": "Breakfast",
+                "calories": 900,
+                "time": "14:44"
+            },
+            {
+                "description": "Dinner",
+                "calories": 900,
+                "time": "14:45"
+            },
+            {
+                "description": "Dinner",
+                "calories": 300,
+                "time": "14:46"
             }
         ]
     }
