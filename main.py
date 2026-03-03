@@ -1,10 +1,10 @@
-import json #This will allow me to save and load data from files
-import os #This will chceck if files exist
-from datetime import datetime #This will timestamp when someone has inputted their calories
+import json
+import os 
+from datetime import datetime 
 
 datafile = "calorie_data.json"
 
-#This will let me add to the BMR of how active someone is
+
 activity_multipliers = {
     1 : ("little to no excersize",1.2), #Sedentary
     2 : ("lightly active (1-3 days/week)", 1.375), #Lightly active
@@ -346,10 +346,6 @@ def main():
         print("Previous Data has been found")
         print(f"Previous result: {previous_data.get('daily_calories', 'N/A')} calories")
         while True:
-            """"
-            With this next part of code (the while true statement), i was having difficulties looping my logic as in the terminal, when i would put anything but y or n, it would say choose between y or n
-            it would terminate the session right after, AI had told me to use a while true statement and taught me why it works, because of this i was able to implement this logic throughout my programme and also learn effectively too
-            """
                 
             use_previous = input("\nWould you like to use previous data (y/n): ").lower().strip()
 
@@ -382,7 +378,7 @@ def main():
             """
             On line 437, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
             print(f"\n  Nothing logged yet today. Your target is {user_data['daily_calories']} calories."). I spent alot of time looking for the bug so i asked claude to help me find it, it had found the bug and explained that python
-            in some edge cases can cause the system to priont out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
+            in some edge cases can cause the system to print out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
             behave when it comes to niche bugs and different edge cases.
             """        
         calorie_menu(user_data)    
