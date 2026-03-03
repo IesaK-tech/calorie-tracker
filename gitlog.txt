@@ -1,3 +1,59 @@
+commit 86e2f888f5509715c5798ae8bd56954439f2af89
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 15:52:09 2026 +0000
+
+    sectioned out work for ease of understanding within the presentation
+
+commit ee2238c43b912725568960bf6d8cf0cac215b0db
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 14:37:37 2026 +0000
+
+    terminal UI been further refined to be more visually pleasing
+
+commit 092e1df3d8c54b5391e8d1a1f5e3d7ecd89906b4
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 14:14:11 2026 +0000
+
+    strengthened data handling. Before, data was not being saved when the user input "n" when adding another entry.
+
+commit 2e8f56a80d40547bc67942100031d64f87922e56
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 13:55:25 2026 +0000
+
+    Fixed bug within the Edit section of the project, adding consistency and allowing for the user to return to menu after executing the relevant input
+
+commit 7b0386ce71ab628c0be5831c008e4e9e5730b8a1
+Merge: 1856ffd fa305ae
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 13:29:12 2026 +0000
+
+    Merge branch 'main' of https://github.com/IesaK-tech/calorie-tracker
+    In order to update the README and also add to my commits
+
+commit 1856ffdb5cf79c9d47b044120dc39bf30ea2b197
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 13:28:36 2026 +0000
+
+    fixed bugs within the Log section and some within the edit section by adding while True statements
+
+commit fa305ae3ec5477b4ccf167ca30122f9401958d7f
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 10:10:05 2026 +0000
+
+    Update README.md
+
+commit 65f1a689c3dc09a7930ccafc044af27b23731ab4
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Mon Mar 2 10:07:13 2026 +0000
+
+    Update README.md
+
+commit bfdb6a66222f22b52f2c77eab5e0105c5742e0b8
+Author: IesaK-tech <iesamirzakhan06@gmail.com>
+Date:   Fri Feb 27 11:56:24 2026 +0000
+
+    added gitlogs and a readme giving instructions on how to run the programme
+
 commit e2d53a8f472836a28535ea0e6aeb009332002b60
 Author: Iesa Kamran <iesamirzakhan06@gmail.com>
 Date:   Sun Feb 22 20:54:47 2026 +0000

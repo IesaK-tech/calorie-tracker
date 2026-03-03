@@ -77,8 +77,9 @@ def load_data():
         return None
 
 def get_user_input():
-
-    print("Calorie Calculator")
+    print("=" * 50)
+    print("              Calorie Calculator")
+    print("=" * 50)
     print("\nLets set up your profile to calculate your calorie intake needs.\n")
 
     #Find Weight
@@ -436,7 +437,7 @@ def main():
         else:
             print(f"\nNothing logged yet today. Your target is {daily_calories} calories.")
             """
-            On line 307, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
+            On line 437, there was a bug which was causing there to be a problem with the terminal interface, it was showing all the data in a not so tidy way of the users profile, the code before was:
             print(f"\n  Nothing logged yet today. Your target is {user_data['daily_calories']} calories."). I spent alot of time looking for the bug so i asked claude to help me find it, it had found the bug and explained that python
             in some edge cases can cause the system to priont out the whole dictionary reference when its in an f string. Just putting {daily_calories} was enough to fix it. Using claude was beneficial as it helped me understand how Python can
             behave when it comes to niche bugs and different edge cases.
