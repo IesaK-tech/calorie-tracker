@@ -1,6 +1,3 @@
-#This is the python file that i will be pushing into Github
-# I will be making a Calorie Tracking Application - A simple app which will track daily calorie intake.
-
 import json #This will allow me to save and load data from files
 import os #This will chceck if files exist
 from datetime import datetime #This will timestamp when someone has inputted their calories
@@ -16,33 +13,8 @@ activity_multipliers = {
     5 : ("Exrtremely active (physical job or training twice/day)",1.9) #extremely active
 }
 
+
 def calculate_bmr(weight, height, age, gender, activity_level):
-    
-    """
-    As stated in my projects section of github, i will be calculating BMR with the Mifflin-St Jeor
-    Equation. This will then be multiplied by activity_multiplier which is dependent on what the user chooses
-    Parameters:
-    weight: float
-        weight in kilograms
-    height: float
-        height in cm
-    age: int
-        age in years
-    gender: string
-        'm' for male, 'f' for female
-    activity_level: int
-        Numbered 1-5 which will represent activity level
-
-    This will return:
-    float: Daily calorie intake (BMR * activity level)
-
-    Calculation to find out BMR:  
-
-    Men: BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age(years) + 5
-    Women: BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age(years) - 161
-
-    """
-
     if gender.lower() == 'm':
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
     else:
@@ -57,7 +29,6 @@ def calculate_bmr(weight, height, age, gender, activity_level):
     #rounding the calories to a whole number/integer as following the goal
     return round(daily_calories)
 
-#SAVING DATA TO A FILE
 
 def save_data(user_data):
     with open(datafile, 'w') as file:
@@ -65,7 +36,6 @@ def save_data(user_data):
 
     print("The Data has been saved!")
 
-#Loading the data from a file. So that it can save data.
 
 def load_data():
     if os.path.exists(datafile):
@@ -76,13 +46,12 @@ def load_data():
     else:
         return None
 
+
 def get_user_input():
     print("=" * 50)
     print("              Calorie Calculator")
     print("=" * 50)
     print("\nLets set up your profile to calculate your calorie intake needs.\n")
-
-    #Find Weight
     while True:
         try:
             weight = float(input("Enter your weight (kg): "))
@@ -113,11 +82,11 @@ def get_user_input():
         except ValueError:
             print("Please enter a valid number.")
     while True:
-            gender = input("please enter your gender (m/f): ").lower()
-            if gender in ['m','f']:
-                break
-            else:
-                print("Please enter 'm' for male and 'f' for female.")
+        gender = input("please enter your gender (m/f): ").lower()
+        if gender in ['m','f']:
+            break
+        else:
+            print("Please enter 'm' for male and 'f' for female.")
     print("\n" + "="*50)
     print("              ACTIVITY LEVELS")
     print("="*50 + "\n")
@@ -140,6 +109,7 @@ def get_user_input():
         "activity_level" : activity_level
     }
 
+
 def display_results(user_data,daily_calories):
     """
     this will display it nicely for the user
@@ -156,11 +126,10 @@ def display_results(user_data,daily_calories):
     print(f"  Activity: {activity_multipliers[user_data['activity_level']][0]}")
     print(f"     \nYour daily calorie target: {daily_calories} calories")
 
-#I want to add a calorie logging section, which is what i will do here
-#I will first create a timestamp function which takes the time and date of when the calories are logged
 
 def get_todays_key():
         return datetime.now().strftime("%d-%m-%Y")
+
 
 #This will return how many calories the user has logged today.
 #Logs are stored in userdata['log'] as a dictionary of {date : entries}
@@ -170,6 +139,7 @@ def get_calories_consumed(user_data):
     log = user_data.get("log",{})
     todays_entries = log.get(today,[])
     return  sum(entry["calories"] for entry in todays_entries)
+
 
 #Displays what the User has logged with the function and their daily calories, works out their remaining calories based on the calories they have logged.
 def display_calorie_summary(user_data):
@@ -199,10 +169,6 @@ def display_calorie_summary(user_data):
     else:
         print(f"Over by : {abs(remaining)} calories")
 
-"""
-==================================================
-Log calories Function with the timestamp
-"""
 
 def log_calories(user_data):
 
@@ -274,14 +240,7 @@ def log_calories(user_data):
         display_calorie_summary(user_data)
 
 
-"""===============================
-Edit Calories Function
-"""
-
 def edit_calories(user_data):
-    """
-    This lets me edit the calories by fetching the data that i have logged today and then letting me relog the calories.
-    """
     today = get_todays_key()
     log = user_data.get("log",{})
     todays_entries = log.get(today, [])
@@ -332,12 +291,12 @@ def edit_calories(user_data):
                         entry['calories'] = new_calories
                         print('Calories Updated!')
                         save_data(user_data)
-                        return calorie_menu
+                        return
                     else:
                         print('Cannot accept negative Calories, please enter a positive number.')
                 except ValueError:
                     print("Please enter a valid number.")
-                    return entry_num
+                    return
         elif action == '2':
             confirm = input(f"\nDelete '{entry['description']}'? (y/n): ").lower()
             if confirm == 'y':
@@ -345,28 +304,19 @@ def edit_calories(user_data):
                 print('Entry Deleted!')
                 save_data(user_data)
                 display_calorie_summary(user_data)
-                return calorie_menu
+                return
             else:
                 print('Deletion canelled.')
-                return entry_num
+                return
         elif action == '0':
             print('Edit Cancelled.')
-            return entry_num
+            return
         else:
             print("Invalid choice. Choose between 0, 1 and 2.")
             return edit_calories(user_data)
-        
-"=============================="
-"MAIN MENU CODE"
+
     
 def calorie_menu(user_data):
-    """
-    The main menu will be shown after a profile is loaded and the options will be:
-    L - Log calories for today
-    V - View todays summary
-    E - Edit Todays Entries
-    Q - Quit (giving a message too)
-    """
     while True:
         print("\n" + "="*50)
         print("                   MAIN MENU")
@@ -389,13 +339,6 @@ def calorie_menu(user_data):
         else:
             print(" Invalid option. Please enter L, E or Q.")
 
-"""=======================================
-"""
-
-"""
-============================================
-Data Persistence section
-"""
 
 def main():
     previous_data = load_data()

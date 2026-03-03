@@ -4,5 +4,24 @@
     "age": 19,
     "gender": "m",
     "activity_level": 3,
-    "daily_calories": 2757
+    "daily_calories": 2757,
+    "log": {
+        "03-03-2026": [
+            {
+                "description": "Breakfast",
+                "calories": 600,
+                "time": "14:13"
+            },
+            {
+                "description": "Breakfast",
+                "calories": 500,
+                "time": "14:13"
+            },
+            {
+                "description": "Breakfast",
+                "calories": 280,
+                "time": "14:13"
+            }
+        ]
+    }
 }
