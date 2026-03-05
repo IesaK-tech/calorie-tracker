@@ -1,3 +1,15 @@
+commit a6b155f15798f1f97586f2d7d822f3fb80a24934
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Thu Mar 5 12:30:23 2026 +0000
+
+    add docstrings to improve clarity of code
+
+commit d8d7ab25208972333dfce1bd9d45b7b317fadc68
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Thu Mar 5 11:51:58 2026 +0000
+
+    updated git log
+
 commit 560bda8632b0311c83db0d4c1062931c017f9ffd
 Author: Iesa Kamran <iesamirzakhan06@gmail.com>
 Date:   Tue Mar 3 16:22:10 2026 +0000

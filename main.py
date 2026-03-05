@@ -135,11 +135,11 @@ def display_results(user_data,daily_calories):
 
 
 def get_todays_key():
-        return datetime.now().strftime("%d-%m-%Y")
-"""
-Returns today's date as a string in DD-MM-YYYY format,
-used as the key for storing daily log entries.
-"""
+    """
+    Returns today's date as a string in DD-MM-YYYY format,
+    used as the key for storing daily log entries.
+    """    
+    return datetime.now().strftime("%d-%m-%Y")
 
 #This will return how many calories the user has logged today.
 #Logs are stored in userdata['log'] as a dictionary of {date : entries}
