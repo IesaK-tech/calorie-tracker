@@ -18,3 +18,8 @@ Second way:
 - `gitlog.txt` is the file for my git history
 
 There are no other Data files or anything else you need to download in order to run this programme.
+
+### Check out my Github Repo!
+- You can see the project management software i used (Github Projects) and the methodology (Kanban)
+- Messages of my commits
+- https://github.com/IesaK-tech/calorie-tracker
