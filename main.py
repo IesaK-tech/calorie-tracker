@@ -10,7 +10,7 @@ activity_multipliers = {
     2 : ("lightly active (1-3 days/week)", 1.375), #Lightly active
     3 : ("Moderately active (exercise 3-5 days/week)", 1.55), #moderately active
     4 : ("Very active (exercise 6-7 days/week)",1.725), #very active
-    5 : ("Exrtremely active (physical job or training twice/day)",1.9) #extremely active
+    5 : ("Extremely active (physical job or training twice/day)",1.9) #extremely active
 }
 
 
@@ -31,6 +31,9 @@ def calculate_bmr(weight, height, age, gender, activity_level):
 
 
 def save_data(user_data):
+    """
+    Saves the user data dictionary to a JSON file.
+    """
     with open(datafile, 'w') as file:
         json.dump(user_data, file, indent=4)
 
@@ -38,6 +41,10 @@ def save_data(user_data):
 
 
 def load_data():
+    """
+    Loads and returns user data from the JSON file.
+    Returns None if the file doesn't exist or is empty.
+    """
     if os.path.exists(datafile):
         if os.path.getsize(datafile) == 0:
             return None
@@ -129,7 +136,10 @@ def display_results(user_data,daily_calories):
 
 def get_todays_key():
         return datetime.now().strftime("%d-%m-%Y")
-
+"""
+Returns today's date as a string in DD-MM-YYYY format,
+used as the key for storing daily log entries.
+"""
 
 #This will return how many calories the user has logged today.
 #Logs are stored in userdata['log'] as a dictionary of {date : entries}
@@ -171,6 +181,11 @@ def display_calorie_summary(user_data):
 
 
 def log_calories(user_data):
+    """
+    Prompts the user to log a meal and its calorie count.
+    Appends the entry to today's log and saves the data.
+    Loops until the user chooses to stop adding entries.
+    """
 
     today = get_todays_key()
 
@@ -241,6 +256,10 @@ def log_calories(user_data):
 
 
 def edit_calories(user_data):
+    """
+    Displays today's logged entries and allows the user to
+    either edit the calorie value of an entry or delete it entirely.
+    """
     today = get_todays_key()
     log = user_data.get("log",{})
     todays_entries = log.get(today, [])
@@ -317,6 +336,10 @@ def edit_calories(user_data):
 
     
 def calorie_menu(user_data):
+    """
+    Displays the main menu and routes the user to logging,
+    viewing, editing calories, or quitting the program.
+    """
     while True:
         print("\n" + "="*50)
         print("                   MAIN MENU")
