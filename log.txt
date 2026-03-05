@@ -1,3 +1,21 @@
+commit 560bda8632b0311c83db0d4c1062931c017f9ffd
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Tue Mar 3 16:22:10 2026 +0000
+
+    improved data persistence within the edit function
+
+commit 825138cd6fab150d6039acdca3f932a257197848
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Tue Mar 3 14:27:00 2026 +0000
+
+    improved code readability by adhering to PEP 8 standards and removing spelling inconsistencies
+
+commit 49487343b8f650f72987362b89be7cc00a002091
+Author: Iesa Kamran <iesamirzakhan06@gmail.com>
+Date:   Tue Mar 3 13:35:20 2026 +0000
+
+    Updated git log and refined user interface further
+
 commit 86e2f888f5509715c5798ae8bd56954439f2af89
 Author: IesaK-tech <iesamirzakhan06@gmail.com>
 Date:   Mon Mar 2 15:52:09 2026 +0000
